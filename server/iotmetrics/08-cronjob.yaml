@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: giveallsoilvalues
+  namespace: iotmetrics
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mosquitto-client
+            image: quinont/mosquittoclients:1
+            command: ["sh", "-c", "mosquitto_pub -h 192.168.88.1 -t 'give/all/soil' -m '1'"]
+          restartPolicy: OnFailure
