@@ -108,7 +108,7 @@ void loop() {
   client.loop();
 
   unsigned long now = millis();
-  if (now - lastMsg > 60000) {
+  if (now - lastMsg > 600000) {
     lastMsg = now;
     ++value;
     digitalWrite(BUILTIN_LED, lightState);

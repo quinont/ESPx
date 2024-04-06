@@ -4,7 +4,7 @@ metadata:
   name: giveallsoilvalues
   namespace: iotmetrics
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "*/10 * * * *"
   jobTemplate:
     spec:
       template:
