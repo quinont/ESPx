@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: telegraf
+  name: telegraf
+  namespace: iotmetrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telegraf
+  template:
+    metadata:
+      labels:
+        app: telegraf
+    spec:
+      volumes:
+      - name: telegraf-config
+        configMap:
+          name: telegraf-config
+      containers:
+      - image: telegraf:1.30.1-alpine
+        name: telegraf
+        volumeMounts:
+        - name: telegraf-config
+          mountPath: "/etc/telegraf/"
+        env:
+        - name: TZ
+          value: "America/Santiago"

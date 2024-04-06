@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: influxdb
+  name: influxdb
+  namespace: iotmetrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      volumes:
+      - name: influxdb-data
+        persistentVolumeClaim:
+          claimName: local-path-influxdb-data
+      - name: influxdb-config
+        persistentVolumeClaim:
+          claimName: local-path-influxdb-config
+      containers:
+      - image: influxdb:2.7.5-alpine
+        name: influxdb
+        volumeMounts:
+        - name: influxdb-data
+          mountPath: "/var/lib/influxdb2"
+        - name: influxdb-config
+          mountPath: "/etc/influxdb2"
+        env:
+        - name: TZ
+          value: "America/Santiago"
+        - name: DOCKER_INFLUXDB_INIT_MODE
+          value: "setup"
+        - name: DOCKER_INFLUXDB_INIT_USERNAME
+          value: "user"
+        - name: DOCKER_INFLUXDB_INIT_PASSWORD
+          value: "password1234"
+        - name: DOCKER_INFLUXDB_INIT_ORG
+          value: "iot"
+        - name: DOCKER_INFLUXDB_INIT_BUCKET
+          value: "iot_sensors"
+        - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+          value: "ZXN0b0VzIHVuIFRva2VuIDkwMDIsIHF1ZSBlcyBtZWpvciBxdWUgbGEgOTAwMQ=="
