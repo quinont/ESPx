@@ -59,9 +59,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
   soilmoisturepercent = map(soilMoistureValue, AirValue, WaterValue, 0, 100);
   Serial.println(soilMoistureValue);
   Serial.println(soilmoisturepercent);
-  snprintf (msg, MSG_BUFFER_SIZE, "%ld", soilMoistureValue);
+  snprintf (msg, MSG_BUFFER_SIZE, "{\"value\": %ld}", soilMoistureValue);
   client.publish("return/sensor1/soil/value", msg);
-  snprintf (msg, MSG_BUFFER_SIZE, "%ld", soilmoisturepercent);
+  snprintf (msg, MSG_BUFFER_SIZE, "{\"value\": %ld}", soilmoisturepercent);
   client.publish("return/sensor1/soil/percentage", msg);
 }
 
